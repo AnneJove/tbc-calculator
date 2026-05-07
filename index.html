@@ -265,11 +265,6 @@
       <div class="service-info"><div class="service-dot"></div><div><div class="service-label">Bridal Makeup</div><div class="service-sublabel">Individual lashes included</div></div></div>
       <label class="toggle" aria-label="Bridal Makeup"><input type="checkbox" id="cb-bridal-makeup" onchange="updateCalc()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
     </div>
-    <div class="service-row" id="row-extensions">
-      <div class="service-info"><div class="service-dot"></div><div><div class="service-label">Clip-In Hair Extensions</div><div class="service-sublabel">Applied by your stylist on wedding morning</div></div></div>
-      <label class="toggle" aria-label="Clip-In Extensions"><input type="checkbox" id="cb-extensions" onchange="updateCalc()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
-    </div>
-
     <div class="divider"><span>✦</span></div>
     <div class="section-label">Wedding Party — Hair</div>
     <div class="service-row" id="row-party-hair">
@@ -357,7 +352,7 @@
   const MINIMUM = 10;
   const countedKeys  = ['party-hair', 'party-makeup'];
   const excludedKeys = ['flower-girls'];
-  const countedCBs   = ['bridal-hair', 'bridal-makeup', 'extensions'];
+  const countedCBs   = ['bridal-hair', 'bridal-makeup'];
   const excludedCBs  = ['trial-hair', 'trial-makeup'];
   let counts = {};
   [...countedKeys, ...excludedKeys].forEach(k => counts[k] = 0);
