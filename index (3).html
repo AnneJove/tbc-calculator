@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculate Your Bridal Party Size | TBC Makeup & Hair</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blush: #e8c4b8;
+    --blush-light: #f5e8e2;
+    --blush-deep: #c9906e;
+    --cream: #faf6f2;
+    --cream-dark: #f0e8e0;
+    --black: #1a1614;
+    --charcoal: #3d3330;
+    --warm-gray: #8a7b74;
+    --warning: #c4833a;
+    --success: #7a9e7e;
+    /* Nav uses site palette */
+    --nav-bg: #fdf4f4;
+    --nav-border: #f0d0d0;
+    --nav-deep: #c97a7a;
+    --nav-black: #1a1a1a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    height: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    background: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    color: var(--black);
+    min-height: 100%;
+    overflow-y: visible;
+  }
+
+  /* ── NAV ── */
+  .top-bar { background: var(--nav-black); height: 8px; width: 100%; }
+  .top-nav {
+    width: 100%; background: var(--nav-bg);
+    border-bottom: 1px solid var(--nav-border);
+    padding: 14px 24px; display: flex; flex-direction: row;
+    align-items: center; gap: 16px; flex-wrap: nowrap; z-index: 200;
+  }
+  .top-nav .nav-logo { margin-right: 8px; flex-shrink: 0; }
+  .top-nav .nav-logo img { height: 48px; width: auto; }
+  .top-nav a {
+    font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 400;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--nav-black); text-decoration: none; transition: color 0.18s;
+    white-space: nowrap;
+  }
+  .top-nav a:hover { color: var(--nav-deep); }
+  .top-nav a.active { color: var(--nav-deep); border-bottom: 1.5px solid var(--nav-deep); padding-bottom: 2px; }
+
+  /* Nav dropdown */
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-toggle { cursor: pointer; }
+  .nav-dropdown-toggle::after { content: ' ▾'; font-size: 9px; vertical-align: middle; }
+  .nav-dropdown-menu {
+    display: none; position: absolute; top: 100%; left: 0;
+    background: var(--nav-bg); border: 1px solid var(--nav-border);
+    border-top: 2px solid var(--nav-deep); min-width: 220px;
+    z-index: 300; flex-direction: column; padding: 8px 0;
+  }
+  .nav-dropdown-menu a { display: block; padding: 10px 20px; font-size: 11px; letter-spacing: 0.16em; border-bottom: 1px solid var(--nav-border); white-space: nowrap; }
+  .nav-dropdown-menu a:last-child { border-bottom: none; }
+  .nav-dropdown:hover .nav-dropdown-menu { display: flex; }
+
+  /* Hamburger */
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; margin-left: auto; padding: 4px;
+    background: none; border: none;
+  }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--nav-black); }
+  .mobile-menu {
+    display: none; flex-direction: column;
+    background: var(--nav-bg); border-top: 1px solid var(--nav-border); padding: 12px 0; width: 100%;
+  }
+  .mobile-menu a {
+    font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 400;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--nav-black);
+    text-decoration: none; padding: 12px 20px; border-bottom: 1px solid var(--nav-border); display: block;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--nav-deep); }
+  .mobile-menu-open { display: flex; }
+
+  @media (max-width: 640px) {
+    .top-nav { padding: 10px 16px; gap: 0; flex-wrap: nowrap; }
+    .top-nav .nav-logo img { height: 32px; }
+    .top-nav > a:not(.nav-logo), .top-nav > .nav-dropdown { display: none; }
+    .hamburger { display: flex; }
+  }
+
+  /* ── CALCULATOR ── */
+  .page-wrap {
+    width: 100%; max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
+
+  .header { text-align: center; margin-bottom: 48px; }
+  .header .eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--blush-deep); margin-bottom: 16px; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 6vw, 48px); font-weight: 300; line-height: 1.15; color: var(--black); margin-bottom: 20px; }
+  .header h1 em { font-style: italic; color: var(--blush-deep); }
+  .header .subtext { font-size: 14px; line-height: 1.7; color: var(--warm-gray); max-width: 480px; margin: 0 auto; font-weight: 300; }
+
+  .divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--blush); }
+  .divider span { font-size: 14px; color: var(--blush-deep); opacity: 0.6; }
+
+  .card { background: white; border: 1px solid var(--cream-dark); border-radius: 2px; padding: 40px; margin-bottom: 20px; box-shadow: 0 2px 24px rgba(26,22,20,0.04); }
+  .card-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--charcoal); margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--cream-dark); }
+
+  .section-label { font-size: 9px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blush-deep); opacity: 0.85; margin-bottom: 2px; padding-top: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .section-label.muted { color: var(--warm-gray); opacity: 0.7; }
+
+  .service-row { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--cream-dark); gap: 12px; }
+  .service-row:last-child { border-bottom: none; }
+  .service-info { display: flex; align-items: flex-start; gap: 12px; flex: 1; min-width: 0; }
+  .service-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blush-deep); flex-shrink: 0; opacity: 0.35; transition: opacity 0.3s; margin-top: 5px; }
+  .service-row.active .service-dot { opacity: 1; }
+  .service-label { font-size: 15px; color: var(--charcoal); font-weight: 300; line-height: 1.3; }
+  .service-sublabel { font-size: 11px; color: var(--warm-gray); margin-top: 3px; font-style: italic; line-height: 1.4; }
+
+  .service-row.excluded-row .service-label { color: var(--warm-gray); }
+  .service-row.excluded-row .service-dot { background: var(--warm-gray); }
+  .service-row.excluded-row.active .service-dot { opacity: 0.55; }
+  .service-row.excluded-row .counter-val { color: var(--warm-gray); }
+  .service-row.excluded-row .counter-btn { border-color: var(--cream-dark); color: var(--warm-gray); }
+
+  .excluded-badge { font-size: 9px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-gray); background: var(--cream-dark); border: 1px solid var(--blush); border-radius: 20px; padding: 2px 8px; white-space: nowrap; }
+
+  .toggle { position: relative; width: 44px; height: 24px; cursor: pointer; flex-shrink: 0; }
+  .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .toggle-track { position: absolute; inset: 0; border-radius: 24px; background: var(--cream-dark); border: 1px solid var(--blush); transition: all 0.25s ease; }
+  .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--warm-gray); transition: all 0.25s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+  .toggle input:checked ~ .toggle-track { background: var(--blush-deep); border-color: var(--blush-deep); }
+  .toggle input:checked ~ .toggle-thumb { left: 23px; background: white; }
+  .excluded-row .toggle-track { border-color: var(--cream-dark); }
+  .excluded-row input:checked ~ .toggle-track { background: var(--warm-gray); border-color: var(--warm-gray); }
+
+  .counter { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .counter-btn { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--blush); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--blush-deep); transition: all 0.2s; font-family: 'Cormorant Garamond', serif; font-weight: 300; }
+  .counter-btn:hover { background: var(--blush-light); border-color: var(--blush-deep); }
+  .counter-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .counter-val { width: 32px; text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--charcoal); }
+
+  .results-card { background: var(--black); border-radius: 2px; padding: 36px 40px; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .results-card::before { content: ''; position: absolute; top: 0; right: 0; width: 220px; height: 220px; background: radial-gradient(circle at top right, rgba(232,196,184,0.1), transparent 70%); }
+  .results-row { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; gap: 16px; flex-wrap: wrap; }
+  .results-total-label { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--blush); opacity: 0.7; margin-bottom: 6px; }
+  .results-number { font-family: 'Cormorant Garamond', serif; font-size: 72px; font-weight: 300; color: white; line-height: 1; }
+  .results-sublabel { font-size: 12px; color: var(--warm-gray); font-style: italic; margin-top: 4px; }
+  .results-aside { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding-bottom: 6px; }
+  .results-aside-item { text-align: right; }
+  .results-aside-label { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-gray); opacity: 0.6; margin-bottom: 2px; }
+  .results-aside-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--warm-gray); line-height: 1; }
+  .results-aside-sub { font-size: 10px; color: var(--warm-gray); opacity: 0.45; font-style: italic; }
+
+  .status-bar-wrap { margin-bottom: 20px; }
+  .status-bar-labels { display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .status-bar-labels span { font-size: 11px; color: var(--warm-gray); letter-spacing: 0.05em; }
+  .status-bar-track { height: 4px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+  .status-bar-fill { height: 100%; border-radius: 4px; background: var(--blush-deep); transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); width: 0%; }
+
+  .status-message { padding: 14px 18px; border-radius: 2px; font-size: 13px; line-height: 1.6; display: flex; align-items: flex-start; gap: 10px; transition: all 0.3s ease; }
+  .status-message.warning { background: rgba(196,131,58,0.12); border: 1px solid rgba(196,131,58,0.25); color: #e8b87a; }
+  .status-message.success { background: rgba(122,158,126,0.12); border: 1px solid rgba(122,158,126,0.25); color: #9ec4a2; }
+  .status-message.neutral { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--warm-gray); }
+  .status-icon { font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+
+  .suggestions { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); display: none; }
+  .suggestions.visible { display: block; }
+  .suggestions-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-gray); margin-bottom: 10px; }
+  .suggestion-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { padding: 6px 14px; border: 1px solid rgba(232,196,184,0.25); border-radius: 20px; font-size: 12px; color: var(--blush); font-style: italic; background: rgba(232,196,184,0.06); cursor: pointer; transition: all 0.2s; }
+  .pill:hover { background: rgba(232,196,184,0.12); border-color: rgba(232,196,184,0.5); }
+
+  .cta-card { background: var(--blush-light); border: 1px solid var(--blush); border-radius: 2px; padding: 36px 40px; text-align: center; }
+  .cta-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; color: var(--charcoal); margin-bottom: 10px; }
+  .cta-card p { font-size: 13px; color: var(--warm-gray); line-height: 1.7; margin-bottom: 24px; }
+  .cta-btn { display: inline-block; padding: 14px 36px; background: var(--black); color: white; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; border-radius: 1px; transition: all 0.25s; cursor: pointer; }
+  .cta-btn:hover { background: var(--charcoal); }
+
+  .footnote { text-align: center; font-size: 11px; color: var(--warm-gray); opacity: 0.7; margin-top: 28px; font-style: italic; line-height: 1.7; }
+
+  @keyframes numPop { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
+  .pop { animation: numPop 0.3s ease; }
+
+  @media (max-width: 520px) {
+    .card, .results-card, .cta-card { padding: 28px 22px; }
+    .results-number { font-size: 54px; }
+    .results-row { flex-direction: column; align-items: flex-start; }
+    .results-aside { align-items: flex-start; flex-direction: row; flex-wrap: wrap; gap: 20px; }
+    .results-aside-item { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<nav class="top-nav" aria-label="Site navigation">
+  <a href="https://www.tbcmakeuphair.com" class="nav-logo">
+    <img src="https://static.wixstatic.com/media/2f8940_f08043b8f07f43bbba5d798b30c99569~mv2.png" alt="The Beauty Consultant Charlotte NC bridal hair and makeup">
+  </a>
+  <a href="https://www.tbcmakeuphair.com/destination-weddings">Destination Weddings</a>
+  <a href="https://www.tbcmakeuphair.com/ireland-weddings">Ireland Weddings</a>
+  <div class="nav-dropdown">
+    <a href="#" class="nav-dropdown-toggle">Services</a>
+    <div class="nav-dropdown-menu">
+      <a href="https://www.tbcmakeuphair.com/bridal-services">Bridal</a>
+      <a href="https://www.tbcmakeuphair.com/makeuplessons">Makeup Lessons</a>
+      <a href="https://www.tbcmakeuphair.com/eventmakeup">Photoshoots &amp; Special Events</a>
+    </div>
+  </div>
+  <a href="https://www.tbcmakeuphair.com/bridalcalculator" class="active">Party Size Calculator</a>
+  <a href="https://www.tbcmakeuphair.com/contact">Book Here</a>
+  <a href="https://www.tbcmakeuphair.com/about">About</a>
+  <a href="https://www.tbcmakeuphair.com/jointheteam">Join the Team</a>
+  <a href="https://www.tbcmakeuphair.com/blog">Blog</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="https://www.tbcmakeuphair.com/destination-weddings">Destination Weddings</a>
+  <a href="https://www.tbcmakeuphair.com/ireland-weddings">Ireland Weddings</a>
+  <a href="https://www.tbcmakeuphair.com/bridal-services">Services — Bridal</a>
+  <a href="https://www.tbcmakeuphair.com/makeuplessons">Services — Makeup Lessons</a>
+  <a href="https://www.tbcmakeuphair.com/eventmakeup">Services — Photoshoots &amp; Events</a>
+  <a href="https://www.tbcmakeuphair.com/bridalcalculator">Party Size Calculator</a>
+  <a href="https://www.tbcmakeuphair.com/contact">Book Here</a>
+  <a href="https://www.tbcmakeuphair.com/about">About</a>
+  <a href="https://www.tbcmakeuphair.com/jointheteam">Join the Team</a>
+  <a href="https://www.tbcmakeuphair.com/blog">Blog</a>
+</div>
+
+<div class="page-wrap">
+  <div class="header">
+    <div class="eyebrow">The Beauty Consultant — Charlotte, NC</div>
+    <h1>Calculate Your<br><em>Bridal Party Size</em></h1>
+    <p class="subtext">Our peak season dates (April, May, June, September, October &amp; November) require a minimum of 10 wedding day services on Fridays, Saturdays &amp; Sundays. Use the calculator below to see where your party stands.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Your Services</div>
+
+    <div class="section-label">The Bride</div>
+    <div class="service-row" id="row-bridal-hair">
+      <div class="service-info"><div class="service-dot"></div><div><div class="service-label">Bridal Hair</div><div class="service-sublabel">Includes veil installation</div></div></div>
+      <label class="toggle" aria-label="Bridal Hair"><input type="checkbox" id="cb-bridal-hair" onchange="updateCalc()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="service-row" id="row-bridal-makeup">
+      <div class="service-info"><div class="service-dot"></div><div><div class="service-label">Bridal Makeup</div><div class="service-sublabel">Individual lashes included</div></div></div>
+      <label class="toggle" aria-label="Bridal Makeup"><input type="checkbox" id="cb-bridal-makeup" onchange="updateCalc()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="service-row" id="row-extensions">
+      <div class="service-info"><div class="service-dot"></div><div><div class="service-label">Clip-In Hair Extensions</div><div class="service-sublabel">Applied by your stylist on wedding morning</div></div></div>
+      <label class="toggle" aria-label="Clip-In Extensions"><input type="checkbox" id="cb-extensions" onchange="updateCalc()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+
+    <div class="divider"><span>✦</span></div>
+    <div class="section-label">Wedding Party — Hair</div>
+    <div class="service-row" id="row-party-hair">
+      <div class="service-info"><div class="service-dot"></div><div><div class="service-label">Hair Services</div><div class="service-sublabel">Bridesmaids, mothers, grandmothers, aunts, officiants, family &amp; friends</div></div></div>
+      <div class="counter"><button class="counter-btn" onclick="decrement('party-hair')" id="dec-party-hair" disabled>−</button><div class="counter-val" id="val-party-hair">0</div><button class="counter-btn" onclick="increment('party-hair')">+</button></div>
+    </div>
+
+    <div class="divider"><span>✦</span></div>
+    <div class="section-label">Wedding Party — Makeup</div>
+    <div class="service-row" id="row-party-makeup">
+      <div class="service-info"><div class="service-dot"></div><div><div class="service-label">Makeup Services</div><div class="service-sublabel">Bridesmaids, mothers, grandmothers, aunts, officiants, family &amp; friends</div></div></div>
+      <div class="counter"><button class="counter-btn" onclick="decrement('party-makeup')" id="dec-party-makeup" disabled>−</button><div class="counter-val" id="val-party-makeup">0</div><button class="counter-btn" onclick="increment('party-makeup')">+</button></div>
+    </div>
+
+    <div class="divider"><span>✦</span></div>
+    <div class="section-label muted">Flower Girls <span class="excluded-badge">Not counted toward minimum</span></div>
+    <div class="service-row excluded-row" id="row-flower-girls">
+      <div class="service-info"><div class="service-dot"></div><div><div class="service-label">Flower Girl Services</div><div class="service-sublabel">Ages 12 &amp; under — not included in peak season minimum</div></div></div>
+      <div class="counter"><button class="counter-btn" onclick="decrement('flower-girls')" id="dec-flower-girls" disabled>−</button><div class="counter-val" id="val-flower-girls">0</div><button class="counter-btn" onclick="increment('flower-girls')">+</button></div>
+    </div>
+
+    <div class="divider"><span>✦</span></div>
+    <div class="section-label muted">Bridal Trials <span class="excluded-badge">Not counted toward minimum</span></div>
+    <div class="service-row excluded-row" id="row-trial-hair">
+      <div class="service-info"><div class="service-dot"></div><div><div class="service-label">Bridal Hair Trial</div><div class="service-sublabel">Preview session — does not count toward peak season minimum</div></div></div>
+      <label class="toggle" aria-label="Bridal Hair Trial"><input type="checkbox" id="cb-trial-hair" onchange="updateCalc()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+    <div class="service-row excluded-row" id="row-trial-makeup">
+      <div class="service-info"><div class="service-dot"></div><div><div class="service-label">Bridal Makeup Trial</div><div class="service-sublabel">Preview session — does not count toward peak season minimum</div></div></div>
+      <label class="toggle" aria-label="Bridal Makeup Trial"><input type="checkbox" id="cb-trial-makeup" onchange="updateCalc()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+  </div>
+
+  <div class="results-card">
+    <div class="results-row">
+      <div>
+        <div class="results-total-label">Total Qualifying Services</div>
+        <div class="results-number" id="total-num">0</div>
+        <div class="results-sublabel">counted toward peak season minimum</div>
+      </div>
+      <div class="results-aside">
+        <div class="results-aside-item" id="aside-flower" style="display:none;"><div class="results-aside-label">Flower Girls</div><div class="results-aside-num" id="flower-num">0</div><div class="results-aside-sub">not counted</div></div>
+        <div class="results-aside-item" id="aside-trials" style="display:none;"><div class="results-aside-label">Trials Booked</div><div class="results-aside-num" id="trials-num">0</div><div class="results-aside-sub">not counted</div></div>
+      </div>
+    </div>
+    <div class="status-bar-wrap">
+      <div class="status-bar-labels"><span>0</span><span>Minimum: 10</span></div>
+      <div class="status-bar-track"><div class="status-bar-fill" id="status-bar"></div></div>
+    </div>
+    <div class="status-message neutral" id="status-msg">
+      <span class="status-icon">✦</span>
+      <span id="status-text">Add your services above to see your total.</span>
+    </div>
+    <div class="suggestions" id="suggestions-wrap">
+      <div class="suggestions-label">Many brides in this situation add:</div>
+      <div class="suggestion-pills">
+        <div class="pill" onclick="increment('party-makeup')">Mother-of-the-Bride makeup</div>
+        <div class="pill" onclick="increment('party-hair')">Mother-of-the-Bride hair</div>
+        <div class="pill" onclick="increment('party-makeup')">Grandmother styling</div>
+        <div class="pill" onclick="increment('party-hair')">Aunt or family hair</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-card">
+    <h3>Ready to Reserve Your Date?</h3>
+    <p>Our team of luxury bridal stylists is ready to bring your vision to life. Let's start the conversation.</p>
+    <a class="cta-btn" href="https://tbcmakeuphair.com/contact" target="_blank">Begin Your Inquiry</a>
+  </div>
+
+  <div class="footnote">
+    Peak season (April, May, June, September, October &amp; November) Friday–Sunday dates require a minimum of 10 qualifying services.<br>
+    Trials and flower girl services (ages 12 &amp; under) do not count toward this minimum.<br>
+    Off-peak dates and weekday bookings may have different requirements — contact us to confirm.
+  </div>
+</div>
+
+<script>
+  // Hamburger
+  document.getElementById('hamburger').addEventListener('click', function() {
+    document.getElementById('mobile-menu').classList.toggle('mobile-menu-open');
+  });
+
+  // Calculator
+  const MINIMUM = 10;
+  const countedKeys  = ['party-hair', 'party-makeup'];
+  const excludedKeys = ['flower-girls'];
+  const countedCBs   = ['bridal-hair', 'bridal-makeup', 'extensions'];
+  const excludedCBs  = ['trial-hair', 'trial-makeup'];
+  let counts = {};
+  [...countedKeys, ...excludedKeys].forEach(k => counts[k] = 0);
+
+  function getTotal() {
+    let t = 0;
+    countedCBs.forEach(k => { if (document.getElementById('cb-'+k).checked) t++; });
+    countedKeys.forEach(k => t += counts[k]);
+    return t;
+  }
+  function getTrialsTotal() {
+    return (document.getElementById('cb-trial-hair').checked ? 1 : 0) +
+           (document.getElementById('cb-trial-makeup').checked ? 1 : 0);
+  }
+  function increment(key) {
+    counts[key]++;
+    document.getElementById('val-'+key).textContent = counts[key];
+    document.getElementById('dec-'+key).disabled = false;
+    syncActiveRow(key);
+    updateCalc();
+    if (document.activeElement) document.activeElement.blur();
+  }
+  function decrement(key) {
+    if (counts[key] > 0) {
+      counts[key]--;
+      document.getElementById('val-'+key).textContent = counts[key];
+      document.getElementById('dec-'+key).disabled = counts[key] === 0;
+      syncActiveRow(key);
+      updateCalc();
+      if (document.activeElement) document.activeElement.blur();
+    }
+  }
+  function syncActiveRow(key) {
+    const row = document.getElementById('row-'+key);
+    if (row) row.classList.toggle('active', counts[key] > 0);
+  }
+  function updateCalc() {
+    if (document.activeElement) document.activeElement.blur();
+    [...countedCBs, ...excludedCBs].forEach(k => {
+      const checked = document.getElementById('cb-'+k).checked;
+      const row = document.getElementById('row-'+k);
+      if (row) row.classList.toggle('active', checked);
+    });
+    const total = getTotal();
+    const flowerCount = counts['flower-girls'];
+    const trialsCount = getTrialsTotal();
+    const numEl = document.getElementById('total-num');
+    numEl.textContent = total;
+    numEl.classList.remove('pop');
+    void numEl.offsetWidth;
+    numEl.classList.add('pop');
+    document.getElementById('aside-flower').style.display = flowerCount > 0 ? 'block' : 'none';
+    document.getElementById('flower-num').textContent = flowerCount;
+    document.getElementById('aside-trials').style.display = trialsCount > 0 ? 'block' : 'none';
+    document.getElementById('trials-num').textContent = trialsCount;
+    document.getElementById('status-bar').style.width = Math.min((total/MINIMUM)*100, 100)+'%';
+    const diff = MINIMUM - total;
+    const msgBox = document.getElementById('status-msg');
+    const msgText = document.getElementById('status-text');
+    const suggestions = document.getElementById('suggestions-wrap');
+    msgBox.className = 'status-message';
+    suggestions.classList.remove('visible');
+    if (total === 0) {
+      msgBox.classList.add('neutral');
+      msgText.textContent = 'Add your services above to see your total.';
+    } else if (diff > 1) {
+      msgBox.classList.add('warning');
+      msgText.textContent = `You are ${diff} services away from our peak season minimum of ${MINIMUM}.`;
+      suggestions.classList.add('visible');
+    } else if (diff === 1) {
+      msgBox.classList.add('warning');
+      msgText.textContent = `You are 1 service away from our peak season minimum. Many brides add a family member or grandmother!`;
+      suggestions.classList.add('visible');
+    } else {
+      msgBox.classList.add('success');
+      msgText.textContent = `✓ You meet our peak season minimum. We'd love to be your team on your wedding day.`;
+    }
+    // Recalculate height every time content changes
+    setTimeout(reportHeight, 50);
+    setTimeout(reportHeight, 300);
+  }
+
+  // Touch scroll
+  document.addEventListener('touchstart', function(){}, {passive: true});
+  document.addEventListener('touchmove', function(){}, {passive: true});
+</script>
+</body>
+</html>
